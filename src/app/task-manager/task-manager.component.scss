@@ -1,0 +1,75 @@
+.d-flex {
+  display: flex;
+}
+
+.bottom-border {
+  border-bottom: 1px dashed rgba(99, 99, 99, 0.5);
+}
+
+button {
+  margin: 10px;
+}
+
+.mat-icon {
+  height: 32px !important;
+  width: 32px !important;
+  font-size: 32px !important;
+  line-height: 32px !important;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+.d-flex > h4 {
+  font-weight: 600;
+  margin: auto 0 auto 0;
+}
+
+.filter-container {
+  margin: 1% 5% 0% 5%;
+}
+table {
+  width: 100%;
+}
+
+.task-manager-table {
+  margin: 0% 5% 0% 5%;
+}
+
+a {
+  cursor: pointer;
+}
+
+a:nth-child(2) {
+  margin-left: 5px;
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+  padding: 0.4em 0px !important;
+}
+::ng-deep .mat-form-field-label-wrapper {
+  top: -1.5em;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+  transform: translateY(-1.1em) scale(0.75);
+  width: 133.33333%;
+}
+
+mat-form-field:not(:nth-child(1)) {
+  margin-left: 1%;
+}
+
+.filter-container > button.search {
+  position: absolute;
+  top: 14px;
+  left: 245px;
+}
+
+.filter-container > button.delete-filter {
+  position: absolute;
+  top: 14px;
+}

@@ -1,0 +1,45 @@
+mat-form-field {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.status-radio-button-group {
+  margin-top: 8px;
+}
+.status-radio-button-group > mat-radio-group {
+  display: flex;
+}
+
+.status-radio-button-group > mat-radio-group > span {
+  position: relative;
+  border: 1px solid black;
+  padding: 1%;
+  border-radius: 2.5px;
+}
+
+span {
+  margin-left: 5px;
+  flex: 33%;
+  overflow: hidden;
+}
+
+.status-radio-button-group > mat-radio-group > span:not(:nth-child(1)) > label {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 30px 8px 5px;
+}
+
+.status-radio-button-group > mat-radio-group > span:nth-child(1) > label {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 82px 8px 5px;
+}
+
+.status-radio-button-group > mat-radio-group > span > label:hover {
+  cursor: pointer;
+}
+
+.status-radio-button-group > mat-radio-group > span > mat-radio-button {
+  position: absolute;
+  right: 10px;
+}

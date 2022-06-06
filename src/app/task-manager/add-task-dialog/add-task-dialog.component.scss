@@ -1,0 +1,30 @@
+mat-dialog-content {
+  overflow: hidden;
+}
+
+mat-form-field {
+  margin-top: 8px;
+  width: 100%;
+  // margin-left: -16.5%;
+  // margin-bottom: -35px;
+}
+
+mat-label {
+  // margin-top: 8px;
+  display: block;
+}
+
+// ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+//   padding: 0.4em 0px !important;
+// }
+// ::ng-deep .mat-form-field-label-wrapper {
+//   top: -1.5em;
+// }
+
+// ::ng-deep .mat-form-field-appearance-fill {
+//   transform: translateY(-0.8em) scale(0.75);
+// }
+
+// ::ng-deep .mat-error {
+//   font-size: 1.5em;
+// }

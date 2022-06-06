@@ -1,0 +1,61 @@
+<div class="top-accent"></div>
+<!-- Title -->
+<h1 mat-dialog-title>CREATE NEW TASK</h1>
+<mat-divider></mat-divider>
+<br />
+<mat-dialog-content>
+  <form [formGroup]="addTaskForm" (ngSubmit)="onCreate()">
+    <!-- name -->
+    <mat-label>Task Name</mat-label>
+    <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+      <input type="text" matInput formControlName="name" />
+      <mat-icon matSuffix>badge</mat-icon>
+      <mat-error
+        *ngIf="
+          addTaskForm.controls['name'].hasError('required') &&
+          addTaskForm.controls['name'].touched
+        "
+        >Task name is required</mat-error
+      >
+    </mat-form-field>
+    <!-- end of name -->
+
+    <!-- description -->
+    <mat-label>Task Description</mat-label>
+    <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+      <input type="text" matInput formControlName="description" />
+      <mat-icon matSuffix>description</mat-icon>
+      <mat-error
+        *ngIf="
+          addTaskForm.controls['description'].hasError('required') &&
+          addTaskForm.controls['description'].touched
+        "
+        >Task description is required</mat-error
+      >
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+    <!-- end of description -->
+
+    <!-- tags -->
+    <mat-label>Tags - (Optional)</mat-label>
+    <mat-form-field appearance="fill">
+      <input type="text" matInput formControlName="tags" />
+      <mat-icon matSuffix>tag</mat-icon>
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+    <!-- end of tags -->
+    <button #submitButton type="submit" hidden></button>
+  </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!addTaskForm.valid"
+    (click)="submitButton.click()"
+  >
+    Create Task
+  </button>
+</mat-dialog-actions>
