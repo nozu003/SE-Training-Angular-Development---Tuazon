@@ -1,0 +1,28 @@
+<form [formGroup]="updateTaskForm" (ngSubmit)="onUpdate()">
+  <!-- tags -->
+  <mat-label>Tags - (Optional)</mat-label>
+  <mat-form-field appearance="fill">
+    <input type="text" matInput formControlName="tags" />
+    <mat-icon matSuffix>tag</mat-icon>
+  </mat-form-field>
+  <!-- end of tags -->
+  <div>
+    <div align="end">
+      <button
+        mat-stroked-button
+        mat-dialog-close
+        color="warn"
+        style="margin-right: 10px"
+      >
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!updateTaskForm.valid"
+      >
+        Update Task
+      </button>
+    </div>
+  </div>
+</form>

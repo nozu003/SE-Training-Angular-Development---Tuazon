@@ -23,6 +23,7 @@ export class EditTaskDialogComponent implements OnInit {
     description: new FormControl(null, Validators.required),
     tags: new FormControl(null),
     dateCreated: new FormControl(null, Validators.required),
+    dateModified: new FormControl(Date.now()),
     status: new FormControl(null, Validators.required),
   });
 

@@ -1,12 +1,12 @@
-<div class="top-accent"></div>
 <!-- Title -->
-<h1 mat-dialog-title>UPDATE TASK</h1>
+<h1 mat-dialog-title>{{ taskData.title }} TASK</h1>
 <mat-divider></mat-divider>
 <br />
 <mat-dialog-content>
   <mat-stepper linear="false" #stepper>
-    <mat-step [stepControl]="updateTaskForm" label="Fill out task name">
-      <form [formGroup]="updateTaskForm">
+    <!-- task stepper -->
+    <mat-step [stepControl]="taskForm" label="Fill out task name">
+      <form [formGroup]="taskForm">
         <!-- name -->
         <mat-label>Task Name</mat-label>
         <mat-form-field appearance="fill" [hideRequiredMarker]="true">
@@ -14,8 +14,8 @@
           <mat-icon matSuffix>badge</mat-icon>
           <mat-error
             *ngIf="
-              updateTaskForm.controls['name'].hasError('required') &&
-              updateTaskForm.controls['name'].touched
+              taskForm.controls['name'].hasError('required') &&
+              taskForm.controls['name'].touched
             "
             >Task name is required</mat-error
           >
@@ -29,46 +29,32 @@
           <mat-icon matSuffix>description</mat-icon>
           <mat-error
             *ngIf="
-              updateTaskForm.controls['description'].hasError('required') &&
-              updateTaskForm.controls['description'].touched
+              taskForm.controls['description'].hasError('required') &&
+              taskForm.controls['description'].touched
             "
             >Task description is required</mat-error
           >
         </mat-form-field>
         <!-- end of description -->
-
-        <!-- status -->
-        <mat-label>Status</mat-label>
-        <br />
-        <div class="status-radio-button-group">
-          <mat-radio-group formControlName="status">
-            <span *ngFor="let status of taskStatus; let i = index">
-              <label for="status-{{ i }}-input">{{ status.label }}</label>
-              <mat-radio-button
-                labelPosition="before"
-                value="{{ status.value }}"
-                id="status-{{ i }}"
-              ></mat-radio-button>
-            </span>
-          </mat-radio-group>
-        </div>
-        <!-- end of status -->
-
         <div align="end">
           <button
             mat-flat-button
             color="primary"
+            [disabled]="!taskForm.valid"
             matStepperNext
-            style="margin-top: 2.5%"
           >
             Next
           </button>
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="updateTaskForm" label="Fill out tags">
-      <app-ed-edit-tags></app-ed-edit-tags>
+    <!-- end of task stepper -->
+
+    <!-- tags stepper -->
+    <mat-step [stepControl]="taskForm" label="Fill out tags">
+      <app-tags></app-tags>
     </mat-step>
+    <!-- end of tags stepper -->
   </mat-stepper>
 </mat-dialog-content>
 <mat-divider></mat-divider>

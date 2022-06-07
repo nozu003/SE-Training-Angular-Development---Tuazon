@@ -1,0 +1,24 @@
+<form [formGroup]="taskForm" (ngSubmit)="onCreate()">
+  <!-- tags -->
+  <mat-label>Tags - (Optional)</mat-label>
+  <mat-form-field appearance="fill">
+    <input type="text" matInput formControlName="tags" />
+    <mat-icon matSuffix>tag</mat-icon>
+  </mat-form-field>
+  <!-- end of tags -->
+  <div>
+    <div align="end">
+      <button
+        mat-stroked-button
+        matStepperPrevious
+        color="secondary"
+        style="margin-right: 10px"
+      >
+        Previous
+      </button>
+      <button mat-flat-button color="primary" [disabled]="!taskForm.valid">
+        {{ taskData.action }} Task
+      </button>
+    </div>
+  </div>
+</form>

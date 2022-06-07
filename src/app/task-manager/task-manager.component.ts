@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Tag } from '../models/tag.model';
 import { TaskStatus } from '../models/task-status';
 import { ITask, Task } from '../models/task.model';
+import { TaskService } from '../services/task.service';
+import { ActionTaskDialogComponent } from './action-task-dialog/action-task-dialog.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { DeleteTaskDialogComponent } from './delete-task-dialog/delete-task-dialog.component';
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
@@ -141,11 +143,19 @@ export class TaskManagerComponent implements OnInit {
     status: new FormControl(null),
   });
 
-  constructor(private dialog: MatDialog) {}
+  errorMessage: string = '';
+
+  constructor(private dialog: MatDialog, private taskService: TaskService) {}
 
   ngOnInit(): void {
+    // this.taskService.getTasks().subscribe({
+    //   next: (tasks) => (this.dataSource = new MatTableDataSource<ITask>(tasks)),
+    //   error: (err) => (this.errorMessage = err),
+    // });
     this.dataSource = new MatTableDataSource<ITask>(this.TASK_DATA);
+
     // this.dataSource = [...this.TASK_DATA];
+    this.taskService.getTasks();
   }
 
   ngAfterViewInit() {
@@ -157,7 +167,8 @@ export class TaskManagerComponent implements OnInit {
    */
   addDialog() {
     const dialog = this.dialog.open(AddTaskDialogComponent, {
-      width: '30%',
+      width: '40%',
+      // data: { title: 'CREATE NEW', action: 'Create' },
     });
   }
 
@@ -167,7 +178,7 @@ export class TaskManagerComponent implements OnInit {
    */
   editDialog(row: any) {
     const dialog = this.dialog.open(EditTaskDialogComponent, {
-      width: '30%',
+      width: '40%',
       data: row,
     });
   }
