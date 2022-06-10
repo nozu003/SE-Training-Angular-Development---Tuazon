@@ -1,7 +1,7 @@
 export interface ITag {
-  tagId: any;
+  tagId?: any;
   tagName: string;
-  taskId: any;
+  taskId?: any;
 }
 
 export class Tag {

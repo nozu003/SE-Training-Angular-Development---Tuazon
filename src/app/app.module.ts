@@ -11,12 +11,13 @@ import { EditTaskDialogComponent } from './task-manager/edit-task-dialog/edit-ta
 import { AddTaskDialogComponent } from './task-manager/add-task-dialog/add-task-dialog.component';
 import { DeleteTaskDialogComponent } from './task-manager/delete-task-dialog/delete-task-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterPipe } from './shared/filter.pipe';
+import { FilterPipe } from './shared/filter/filter.pipe';
 import { AdAddTagsComponent } from './task-manager/add-task-dialog/ad-add-tags/ad-add-tags.component';
 import { EdEditTagsComponent } from './task-manager/edit-task-dialog/ed-edit-tags/ed-edit-tags.component';
 import { ActionTaskDialogComponent } from './task-manager/action-task-dialog/action-task-dialog.component';
 import { TagsComponent } from './task-manager/action-task-dialog/tags/tags.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NumberPipe } from './shared/filter/number.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     EdEditTagsComponent,
     ActionTaskDialogComponent,
     TagsComponent,
+    NumberPipe,
   ],
   imports: [
     BrowserModule,

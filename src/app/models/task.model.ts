@@ -2,7 +2,7 @@ import { ITag, Tag } from './tag.model';
 import { TaskStatus } from './task-status';
 
 export interface ITask {
-  taskId: any;
+  taskId?: any;
   taskName: string;
   taskDescription: string;
   tags: ITag[];

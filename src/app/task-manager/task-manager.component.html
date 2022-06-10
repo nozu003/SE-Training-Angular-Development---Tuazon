@@ -2,7 +2,13 @@
   <!-- search -->
   <mat-form-field appearance="outline">
     <mat-label>Search</mat-label>
-    <input type="text" formControlName="search" matInput />
+    <input
+      type="text"
+      formControlName="search"
+      #search
+      matInput
+      (keyup)="onFilter(search.value)"
+    />
   </mat-form-field>
   <!-- end of search -->
 
@@ -10,11 +16,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Tags</mat-label>
     <mat-select formControlName="tags">
-      <mat-option
-        [value]="task.tags[0].tagName"
-        *ngFor="let task of TASK_DATA"
-        >{{ task.tags[0].tagName }}</mat-option
-      >
+      <mat-option></mat-option>
     </mat-select>
   </mat-form-field>
   <!-- end of tags -->
@@ -33,7 +35,7 @@
   <!-- end of status -->
 
   <!-- filter button -->
-  <button class="search" mat-icon-button (click)="onFilter()">
+  <button class="search" mat-icon-button>
     <mat-icon style="font-size: 28px !important">search</mat-icon>
   </button>
   <!-- end of filter button -->
@@ -51,6 +53,7 @@
 </div>
 
 <div class="mat-elevation-z8 task-manager-table">
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <!-- Start of Main Div -->
   <div>
     <!-- Start of Table Div -->
@@ -83,7 +86,9 @@
         <!-- # Column -->
         <ng-container matColumnDef="#">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
-          <td mat-cell *matCellDef="let row">{{ row.taskId }}</td>
+          <td mat-cell *matCellDef="let row; let i = index">
+            {{ currentPage * postsPerPage - (postsPerPage - 1) + i }}
+          </td>
         </ng-container>
 
         <!-- Name Column -->
@@ -101,7 +106,19 @@
         <!-- Tags Column -->
         <ng-container matColumnDef="tags">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Tags</th>
-          <td mat-cell *matCellDef="let row">{{ row.tags[0].tagName }}</td>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-chip-list>
+              <mat-chip
+                *ngFor="
+                  let chip of dataSource.filteredData[i].tags;
+                  let i = index
+                "
+              >
+                {{ chip.tagName }}
+              </mat-chip>
+            </mat-chip-list>
+            <!-- {{ row.tags[0].tagName }} -->
+          </td>
         </ng-container>
 
         <!-- Created Column -->
@@ -126,21 +143,24 @@
           <td mat-cell *matCellDef="let row">
             <!-- {{ row.status }} -->
             <mat-icon
-              *ngIf="row.status === 'New'"
+              *ngIf="row.status === 0"
               class="material-icons-outlined"
               style="font-size: 28px !important; color: #74b9ff"
+              matTooltip="New"
               >circle</mat-icon
             >
             <mat-icon
-              *ngIf="row.status === 'In Progress'"
+              *ngIf="row.status === 1"
               class="material-icons-outlined"
               style="font-size: 28px !important; color: #fdcb6e"
+              matTooltip="In Progress"
               >build_circle</mat-icon
             >
             <mat-icon
-              *ngIf="row.status === 'Completed'"
+              *ngIf="row.status === 2"
               class="material-icons-outlined"
               style="font-size: 28px !important; color: #55efc4"
+              matTooltip="Completed"
               >check_circle</mat-icon
             >
           </td>
@@ -169,13 +189,25 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let row">
-            <a (click)="editDialog(row)">Edit</a>
-            <a (click)="deleteDialog(row)">Delete</a>
+            <a (click)="editDialog(row.taskId)" *ngIf="row.status !== 2"
+              >Edit</a
+            >
+            <a (click)="deleteDialog(row.taskId)">Delete</a>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="12" style="text-align: center">
+            No data matching:
+            <span style="color: red; font-weight: bold">{{
+              search.value
+            }}</span>
+          </td>
+        </tr>
       </table>
     </div>
   </div>

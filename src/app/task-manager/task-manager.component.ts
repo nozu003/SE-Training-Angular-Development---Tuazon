@@ -3,7 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Tag } from '../models/tag.model';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { ITag, Tag } from '../models/tag.model';
 import { TaskStatus } from '../models/task-status';
 import { ITask, Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
@@ -98,6 +100,7 @@ export class TaskManagerComponent implements OnInit {
       undefined
     ),
   ];
+
   /**
    * totalPost is used for counting of the POSTED data
    */
@@ -144,22 +147,24 @@ export class TaskManagerComponent implements OnInit {
   });
 
   errorMessage: string = '';
+  loading = true;
 
-  constructor(private dialog: MatDialog, private taskService: TaskService) {}
+  constructor(
+    private dialog: MatDialog,
+    private taskService: TaskService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // this.taskService.getTasks().subscribe({
-    //   next: (tasks) => (this.dataSource = new MatTableDataSource<ITask>(tasks)),
-    //   error: (err) => (this.errorMessage = err),
-    // });
-    this.dataSource = new MatTableDataSource<ITask>(this.TASK_DATA);
+    this.taskService.tasksChanged.subscribe(() => {
+      this.getAllTasks(this.postsPerPage, this.currentPage);
+    });
 
-    // this.dataSource = [...this.TASK_DATA];
-    this.taskService.getTasks();
+    this.getAllTasks(this.postsPerPage, this.currentPage);
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
   }
 
   /**
@@ -196,36 +201,38 @@ export class TaskManagerComponent implements OnInit {
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.postsPerPage = pageData.pageSize;
-    // this.instructorService.getInstructors(this.postsPerPage, this.currentPage);
+    this.getAllTasks(this.postsPerPage, this.currentPage);
   }
 
-  onFilter() {
-    console.log(this.filterTaskForm.value);
-    this.dataSource = [...this.TASK_DATA];
-    if (
-      (this.filterTaskForm.value.search === '' ||
-        this.filterTaskForm.value.search === null) &&
-      this.filterTaskForm.value.tags === null &&
-      this.filterTaskForm.value.status === null
-    ) {
+  onFilter(value: string) {
+    value = value.trim();
+    if (value === '') {
+      this.getAllTasks(this.postsPerPage, this.currentPage);
     } else {
-      this.dataSource = this.dataSource.filter((data: any) => {
-        return JSON.stringify(data)
-          .toLowerCase()
-          .includes(
-            this.filterTaskForm.value.search?.trim().toLowerCase() ||
-              this.filterTaskForm.value.tags?.toLowerCase() ||
-              this.filterTaskForm.value.status?.toLowerCase()
-          );
+      this.taskService.filterTask(value).subscribe({
+        next: (tasks) =>
+          (this.dataSource = new MatTableDataSource<ITask>(tasks)),
       });
     }
   }
 
   onClearFilter() {
-    this.filterTaskForm.controls['search'].setValue(null);
+    this.filterTaskForm.controls['search'].setValue('');
     this.filterTaskForm.controls['tags'].setValue(null);
     this.filterTaskForm.controls['status'].setValue(null);
 
-    this.onFilter();
+    this.onFilter(this.filterTaskForm.value.search);
+  }
+
+  getAllTasks(postsPerPage: number, currentPage: number) {
+    this.taskService.getTasks(postsPerPage, currentPage).subscribe({
+      next: (tasks) => {
+        this.dataSource = new MatTableDataSource<ITask>(tasks.body);
+        const pagination = JSON.parse(tasks.headers.get('x-pagination'));
+        this.totalPosts = pagination.TotalCount;
+        this.loading = false;
+      },
+      error: (err) => (this.errorMessage = err),
+    });
   }
 }

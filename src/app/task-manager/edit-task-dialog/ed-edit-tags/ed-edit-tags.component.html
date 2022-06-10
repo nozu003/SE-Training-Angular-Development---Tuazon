@@ -1,9 +1,23 @@
 <form [formGroup]="updateTaskForm" (ngSubmit)="onUpdate()">
   <!-- tags -->
   <mat-label>Tags - (Optional)</mat-label>
-  <mat-form-field appearance="fill">
-    <input type="text" matInput formControlName="tags" />
-    <mat-icon matSuffix>tag</mat-icon>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-chip-list #chipList aria-label="Tag selection">
+      <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+        {{ tag.tagName }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="New Tag..."
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="addTag($event)"
+        formControlName="tags"
+      />
+    </mat-chip-list>
   </mat-form-field>
   <!-- end of tags -->
   <div>
