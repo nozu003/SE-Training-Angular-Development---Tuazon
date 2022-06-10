@@ -18,6 +18,7 @@ import { ActionTaskDialogComponent } from './task-manager/action-task-dialog/act
 import { TagsComponent } from './task-manager/action-task-dialog/tags/tags.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NumberPipe } from './shared/filter/number.pipe';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

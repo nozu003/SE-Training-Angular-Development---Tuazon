@@ -4,12 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
 import { ITag, Tag } from '../models/tag.model';
 import { TaskStatus } from '../models/task-status';
 import { ITask, Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
-import { ActionTaskDialogComponent } from './action-task-dialog/action-task-dialog.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { DeleteTaskDialogComponent } from './delete-task-dialog/delete-task-dialog.component';
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
@@ -171,6 +169,7 @@ export class TaskManagerComponent implements OnInit {
    * opens the add dialog for the task
    */
   addDialog() {
+    this.router.navigate(['task']);
     const dialog = this.dialog.open(AddTaskDialogComponent, {
       width: '40%',
       // data: { title: 'CREATE NEW', action: 'Create' },

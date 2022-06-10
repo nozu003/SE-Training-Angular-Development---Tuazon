@@ -34,10 +34,12 @@ export class TaskService {
       );
   }
 
-  getTaskById(id: any): Observable<ITask[]> {
-    return this.http
-      .get<ITask[]>(this.getEndpoint('getById', id))
-      .pipe(map((tasks) => tasks.filter((t) => t.taskId === id)));
+  getTaskById(id: any): Observable<ITask> {
+    return this.http.get<ITask>(this.getEndpoint('getById', id)).pipe(
+      tap(() => {
+        this.tasksChanged.next();
+      })
+    );
   }
 
   editTask(id: any, taskData: ITask): Observable<ITask> {
@@ -75,7 +77,7 @@ export class TaskService {
       taskStatus = TaskStatus.Completed;
     }
 
-    return this.http.get<ITask[]>(this.api + '/tasks').pipe(
+    return this.http.get<ITask[]>(this.getEndpoint('get')).pipe(
       map((tasks) =>
         tasks.filter((t) => {
           return (
@@ -91,11 +93,14 @@ export class TaskService {
   private getEndpoint(endpoint: string, id?: any): string {
     let endpointUrl = '';
 
-    if (endpoint === 'get') endpointUrl = `${this.api}/tasks/`;
-    else if (endpoint === 'getById') endpoint = `${this.api}/tasks/${id}`;
-    else if (endpoint === 'put') endpointUrl = `${this.api}/tasks/${id}`;
-    else if (endpoint === 'post') endpointUrl = `${this.api}/tasks`;
-    else if (endpoint === 'delete') endpointUrl = `${this.api}/tasks/${id}`;
+    if (endpoint === 'get' || endpoint === 'post')
+      endpointUrl = `${this.api}/tasks/`;
+    else if (
+      endpoint === 'getById' ||
+      endpoint === 'put' ||
+      endpoint === 'delete'
+    )
+      endpointUrl = `${this.api}/tasks/${id}`;
 
     return endpointUrl;
   }

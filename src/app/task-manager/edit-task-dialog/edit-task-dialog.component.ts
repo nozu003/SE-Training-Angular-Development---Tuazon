@@ -2,11 +2,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ITag } from 'src/app/models/tag.model';
 import { TaskStatus } from 'src/app/models/task-status';
@@ -113,18 +109,15 @@ export class EditTaskDialogComponent implements OnInit {
   getTaskById(id: any) {
     this.taskService.getTaskById(id).subscribe({
       next: (task) => {
-        this.updateTaskForm.controls['id'].setValue(task[0].taskId);
-        this.updateTaskForm.controls['name'].setValue(task[0].taskName);
+        console.log(task);
+        this.updateTaskForm.controls['id'].setValue(task.taskId);
+        this.updateTaskForm.controls['name'].setValue(task.taskName);
         this.updateTaskForm.controls['description'].setValue(
-          task[0].taskDescription
+          task.taskDescription
         );
-        this.tags = task[0].tags;
-        this.updateTaskForm.controls['dateCreated'].setValue(
-          task[0].dateCreated
-        );
-        this.updateTaskForm.controls['status'].setValue(
-          task[0].status.toString()
-        );
+        this.tags = task.tags;
+        this.updateTaskForm.controls['dateCreated'].setValue(task.dateCreated);
+        this.updateTaskForm.controls['status'].setValue(task.status.toString());
       },
       error: (err) => {},
       complete: () => {},

@@ -24,7 +24,7 @@ export class DeleteTaskDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   onDelete() {
-    this.taskService.deleteTask(this.taskData.taskId).subscribe((res) => {
+    this.taskService.deleteTask(this.taskData).subscribe((res) => {
       this.snackBar.open('Task deleted successfully', 'OK', {
         horizontalPosition: 'right',
         verticalPosition: 'top',
