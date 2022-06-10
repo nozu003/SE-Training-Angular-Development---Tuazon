@@ -1,12 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskService } from 'src/app/services/task.service';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 
 @Component({
   selector: 'app-delete-task-dialog',

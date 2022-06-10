@@ -4,13 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ITag, Tag } from '../models/tag.model';
+import { Tag } from '../models/tag.model';
 import { TaskStatus } from '../models/task-status';
 import { ITask, Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
-import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { DeleteTaskDialogComponent } from './delete-task-dialog/delete-task-dialog.component';
-import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
 
 @Component({
   selector: 'app-task-manager',
@@ -161,19 +159,13 @@ export class TaskManagerComponent implements OnInit {
     this.getAllTasks(this.postsPerPage, this.currentPage);
   }
 
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-  }
+  ngAfterViewInit() {}
 
   /**
    * opens the add dialog for the task
    */
   addDialog() {
     this.router.navigate(['task']);
-    const dialog = this.dialog.open(AddTaskDialogComponent, {
-      width: '40%',
-      // data: { title: 'CREATE NEW', action: 'Create' },
-    });
   }
 
   /**
@@ -181,10 +173,7 @@ export class TaskManagerComponent implements OnInit {
    * @param row specific row of data on the selected task
    */
   editDialog(row: any) {
-    const dialog = this.dialog.open(EditTaskDialogComponent, {
-      width: '40%',
-      data: row,
-    });
+    this.router.navigate(['task', row]);
   }
 
   /**

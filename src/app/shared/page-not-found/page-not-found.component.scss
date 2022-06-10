@@ -1,0 +1,54 @@
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 126px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 500px;
+  width: 500px;
+}
+
+.error-info {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+  color: #212121;
+  margin-bottom: 16px;
+}
+
+.details {
+  line-height: 20px;
+  color: #212121;
+  margin-bottom: 16px;
+}
+
+.reference-data {
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.55);
+  margin-bottom: 32px;
+}
+
+.secondary-action {
+  text-decoration: none;
+  margin-top: 16px;
+}
+
+.secondary-action:hover {
+  text-decoration: underline;
+}

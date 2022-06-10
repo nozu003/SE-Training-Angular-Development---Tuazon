@@ -1,23 +1,26 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Inject, OnInit } from '@angular/core';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { ITag } from 'src/app/models/tag.model';
 import { TaskStatus } from 'src/app/models/task-status';
 import { TaskService } from 'src/app/services/task.service';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { TaskManagerComponent } from '../task-manager.component';
 
 @Component({
   selector: 'app-add-task-dialog',
   templateUrl: './add-task-dialog.component.html',
   styleUrls: ['./add-task-dialog.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
 })
 export class AddTaskDialogComponent implements OnInit {
   addTaskForm: FormGroup = new FormGroup({
@@ -29,10 +32,9 @@ export class AddTaskDialogComponent implements OnInit {
   });
 
   constructor(
-    private matDialogRef: MatDialogRef<AddTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public addTask: any,
     private taskService: TaskService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -70,13 +72,14 @@ export class AddTaskDialogComponent implements OnInit {
 
     this.taskService.addTask(newTask).subscribe({
       next: (res) => {
+        this.router.navigate(['/']);
         this.snackBar.open('Task created successfully', 'OK', {
           horizontalPosition: 'right',
           verticalPosition: 'top',
           duration: 3000,
           panelClass: ['white-snackbar'],
         });
-        this.matDialogRef.close();
+        // this.matDialogRef.close();
       },
       error: (err) => {
         this.snackBar.open(err, 'OK', {

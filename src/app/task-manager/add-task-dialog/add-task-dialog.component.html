@@ -1,61 +1,94 @@
-<!-- Title -->
-<h1>CREATE NEW TASK</h1>
-<mat-divider></mat-divider>
-<br />
-<mat-dialog-content>
-  <mat-stepper linear="false" #stepper>
-    <!-- task stepper -->
-    <mat-step [stepControl]="addTaskForm" label="Fill out task name">
-      <form [formGroup]="addTaskForm">
-        <!-- name -->
-        <mat-label>Task Name</mat-label>
-        <mat-form-field appearance="fill" [hideRequiredMarker]="true">
-          <input type="text" matInput formControlName="name" />
-          <mat-icon matSuffix>badge</mat-icon>
-          <mat-error
-            *ngIf="
-              addTaskForm.controls['name'].hasError('required') &&
-              addTaskForm.controls['name'].touched
-            "
-            >Task name is required</mat-error
-          >
-        </mat-form-field>
-        <!-- end of name -->
-
-        <!-- description -->
-        <mat-label>Task Description</mat-label>
-        <mat-form-field appearance="fill" [hideRequiredMarker]="true">
-          <input type="text" matInput formControlName="description" />
-          <mat-icon matSuffix>description</mat-icon>
-          <mat-error
-            *ngIf="
-              addTaskForm.controls['description'].hasError('required') &&
-              addTaskForm.controls['description'].touched
-            "
-            >Task description is required</mat-error
-          >
-        </mat-form-field>
-        <!-- end of description -->
-        <div align="end">
-          <button
-            mat-flat-button
-            color="primary"
-            [disabled]="!addTaskForm.valid"
-            matStepperNext
-          >
-            Next
-          </button>
-        </div>
-      </form>
-    </mat-step>
-    <!-- end of task stepper -->
-
-    <!-- tags stepper -->
-    <mat-step [stepControl]="addTaskForm" label="Fill out tags">
-      <app-ad-add-tags></app-ad-add-tags>
-    </mat-step>
-    <!-- end of tags stepper -->
-  </mat-stepper>
-</mat-dialog-content>
-<mat-divider></mat-divider>
-<mat-dialog-actions align="end"></mat-dialog-actions>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Task</mat-card-title>
+      <mat-card-subtitle>Create a new task</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-stepper #stepper>
+        <mat-step
+          [stepControl]="addTaskForm"
+          errorMessage="Task name is required."
+        >
+          <form [formGroup]="addTaskForm">
+            <ng-template matStepLabel>Fill out task name</ng-template>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+              <mat-label>Task Name</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+            <div>
+              <button mat-stroked-button routerLink="/">Back</button>
+              <button mat-flat-button color="primary" matStepperNext>
+                <mat-icon>navigate_next</mat-icon>
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step
+          [stepControl]="addTaskForm"
+          errorMessage="Task descriptions required."
+        >
+          <form [formGroup]="addTaskForm">
+            <ng-template matStepLabel
+              >Fill out your task description</ng-template
+            >
+            <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+              <mat-label>Task Description</mat-label>
+              <input matInput formControlName="description" />
+            </mat-form-field>
+            <div>
+              <button mat-stroked-button matStepperPrevious>Back</button>
+              <button mat-flat-button color="primary" matStepperNext>
+                <mat-icon>navigate_next</mat-icon>
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="addTaskForm" errorMessage="Tags is required.">
+          <form [formGroup]="addTaskForm">
+            <ng-template matStepLabel>Fill out your tags</ng-template>
+            <mat-form-field class="example-chip-list" appearance="fill">
+              <mat-label>Tags</mat-label>
+              <mat-chip-list #chipList aria-label="Tag selection">
+                <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+                  {{ tag.tagName }}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input
+                  placeholder="New Tag..."
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addTag($event)"
+                  formControlName="tags"
+                />
+              </mat-chip-list>
+            </mat-form-field>
+            <div>
+              <button mat-stroked-button matStepperPrevious>Back</button>
+              <button mat-flat-button color="primary" matStepperNext>
+                <mat-icon>navigate_next</mat-icon>
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-flat-button color="primary" (click)="onCreate()">
+              <mat-icon>add_circle</mat-icon>
+              Create Task
+            </button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>

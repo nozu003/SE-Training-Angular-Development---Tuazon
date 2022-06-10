@@ -4,10 +4,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITag } from 'src/app/models/tag.model';
 import { TaskStatus } from 'src/app/models/task-status';
 import { TaskService } from 'src/app/services/task.service';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -39,15 +39,19 @@ export class EditTaskDialogComponent implements OnInit {
       label: 'Completed',
     },
   ];
+
+  taskId: any;
+
   constructor(
-    public matDialogRef: MatDialogRef<EditTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public taskData: any,
     private taskService: TaskService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getTaskById(this.taskData);
+    this.taskId = this.route.snapshot.paramMap.get('id');
+    this.getTaskById(this.taskId);
   }
 
   addOnBlur = true;
@@ -58,7 +62,7 @@ export class EditTaskDialogComponent implements OnInit {
     const value = event.value || ''.trim();
 
     if (value) {
-      this.tags.push({ tagName: value, taskId: this.taskData.taskId });
+      this.tags.push({ tagName: value, taskId: this.taskId });
     }
 
     event.chipInput!.clear();
@@ -95,21 +99,19 @@ export class EditTaskDialogComponent implements OnInit {
     this.taskService
       .editTask(this.updateTaskForm.value.id, updatedTask)
       .subscribe((res) => {
-        // this.changeDetector.detectChanges();
+        this.router.navigate(['/']);
         this.snackBar.open('Task updated successfully', 'OK', {
           horizontalPosition: 'right',
           verticalPosition: 'top',
           duration: 3000,
           panelClass: ['white-snackbar'],
         });
-        this.matDialogRef.close();
       });
   }
 
   getTaskById(id: any) {
     this.taskService.getTaskById(id).subscribe({
       next: (task) => {
-        console.log(task);
         this.updateTaskForm.controls['id'].setValue(task.taskId);
         this.updateTaskForm.controls['name'].setValue(task.taskName);
         this.updateTaskForm.controls['description'].setValue(
