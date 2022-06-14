@@ -2,13 +2,7 @@
   <!-- search -->
   <mat-form-field appearance="outline">
     <mat-label>Search</mat-label>
-    <input
-      type="text"
-      formControlName="search"
-      #search
-      matInput
-      (keyup)="onFilter(search.value)"
-    />
+    <input type="text" formControlName="search" #search matInput />
   </mat-form-field>
   <!-- end of search -->
 
@@ -35,7 +29,12 @@
   <!-- end of status -->
 
   <!-- filter button -->
-  <button class="search" mat-icon-button>
+  <button
+    class="search"
+    mat-icon-button
+    type="button"
+    (click)="onFilter(search.value)"
+  >
     <mat-icon style="font-size: 28px !important">search</mat-icon>
   </button>
   <!-- end of filter button -->
@@ -201,4 +200,3 @@
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>

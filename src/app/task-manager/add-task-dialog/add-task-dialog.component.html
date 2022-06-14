@@ -6,15 +6,13 @@
     </mat-card-header>
     <mat-card-content>
       <mat-stepper #stepper>
-        <mat-step
-          [stepControl]="addTaskForm"
-          errorMessage="Task name is required."
-        >
+        <mat-step [stepControl]="addTaskForm">
           <form [formGroup]="addTaskForm">
             <ng-template matStepLabel>Fill out task name</ng-template>
             <mat-form-field appearance="fill" [hideRequiredMarker]="true">
               <mat-label>Task Name</mat-label>
               <input matInput formControlName="name" />
+              <mat-error>Task name field is required</mat-error>
             </mat-form-field>
             <div>
               <button mat-stroked-button routerLink="/">Back</button>
@@ -25,10 +23,7 @@
             </div>
           </form>
         </mat-step>
-        <mat-step
-          [stepControl]="addTaskForm"
-          errorMessage="Task descriptions required."
-        >
+        <mat-step [stepControl]="addTaskForm">
           <form [formGroup]="addTaskForm">
             <ng-template matStepLabel
               >Fill out your task description</ng-template
@@ -36,6 +31,7 @@
             <mat-form-field appearance="fill" [hideRequiredMarker]="true">
               <mat-label>Task Description</mat-label>
               <input matInput formControlName="description" />
+              <mat-error>Task description field is required</mat-error>
             </mat-form-field>
             <div>
               <button mat-stroked-button matStepperPrevious>Back</button>
@@ -46,7 +42,7 @@
             </div>
           </form>
         </mat-step>
-        <mat-step [stepControl]="addTaskForm" errorMessage="Tags is required.">
+        <mat-step [stepControl]="addTaskForm">
           <form [formGroup]="addTaskForm">
             <ng-template matStepLabel>Fill out your tags</ng-template>
             <mat-form-field class="example-chip-list" appearance="fill">

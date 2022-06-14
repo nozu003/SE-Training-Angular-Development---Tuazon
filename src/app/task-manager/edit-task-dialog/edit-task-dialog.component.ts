@@ -99,12 +99,13 @@ export class EditTaskDialogComponent implements OnInit {
     this.taskService
       .editTask(this.updateTaskForm.value.id, updatedTask)
       .subscribe((res) => {
-        this.router.navigate(['/']);
-        this.snackBar.open('Task updated successfully', 'OK', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-          panelClass: ['white-snackbar'],
+        this.router.navigate(['/']).then(() => {
+          this.snackBar.open('Task updated successfully', 'OK', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 3000,
+            panelClass: ['white-snackbar'],
+          });
         });
       });
   }

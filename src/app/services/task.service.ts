@@ -75,15 +75,19 @@ export class TaskService {
       taskStatus = TaskStatus.InProgress;
     } else if (filterKey === 'completed') {
       taskStatus = TaskStatus.Completed;
+    } else {
+      taskStatus = null;
     }
 
-    return this.http.get<ITask[]>(this.getEndpoint('get')).pipe(
+    const queryParams = `?pageSize=${this.postsPerPage}&pageNumber=${this.currentPage}`;
+
+    return this.http.get<ITask[]>(this.getEndpoint('get') + queryParams).pipe(
       map((tasks) =>
-        tasks.filter((t) => {
+        tasks.filter((task) => {
           return (
-            t.status === taskStatus ||
-            t.taskName.toLowerCase().includes(filterKey.toLowerCase()) ||
-            t.taskDescription.toLowerCase().includes(filterKey.toLowerCase())
+            task.status === taskStatus ||
+            task.taskName.toLowerCase().includes(filterKey.toLowerCase()) ||
+            task.taskDescription.toLowerCase().includes(filterKey.toLowerCase())
           );
         })
       )

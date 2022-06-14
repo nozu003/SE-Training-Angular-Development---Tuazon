@@ -104,7 +104,7 @@ export class TaskManagerComponent implements OnInit {
   /**
    * postsPerPage is used to indicate the number of displayed data inside the table
    */
-  postsPerPage = 5;
+  postsPerPage = 15;
   /**
    * currentPage is used to indicate the current page number
    */
@@ -193,13 +193,14 @@ export class TaskManagerComponent implements OnInit {
   }
 
   onFilter(value: string) {
-    value = value.trim();
     if (value === '') {
       this.getAllTasks(this.postsPerPage, this.currentPage);
     } else {
       this.taskService.filterTask(value).subscribe({
-        next: (tasks) =>
+        next: (tasks) => (
           (this.dataSource = new MatTableDataSource<ITask>(tasks)),
+          console.log(tasks)
+        ),
       });
     }
   }

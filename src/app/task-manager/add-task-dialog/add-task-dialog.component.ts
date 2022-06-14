@@ -15,12 +15,12 @@ import { TaskManagerComponent } from '../task-manager.component';
   selector: 'app-add-task-dialog',
   templateUrl: './add-task-dialog.component.html',
   styleUrls: ['./add-task-dialog.component.scss'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  // providers: [
+  //   {
+  //     provide: STEPPER_GLOBAL_OPTIONS,
+  //     useValue: { showError: true },
+  //   },
+  // ],
 })
 export class AddTaskDialogComponent implements OnInit {
   addTaskForm: FormGroup = new FormGroup({
@@ -72,14 +72,14 @@ export class AddTaskDialogComponent implements OnInit {
 
     this.taskService.addTask(newTask).subscribe({
       next: (res) => {
-        this.router.navigate(['/']);
-        this.snackBar.open('Task created successfully', 'OK', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-          panelClass: ['white-snackbar'],
+        this.router.navigate(['/']).then(() => {
+          this.snackBar.open('Task created successfully', 'OK', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 3000,
+            panelClass: ['white-snackbar'],
+          });
         });
-        // this.matDialogRef.close();
       },
       error: (err) => {
         this.snackBar.open(err, 'OK', {

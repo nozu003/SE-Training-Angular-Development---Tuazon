@@ -59,7 +59,10 @@
             <ng-template matStepLabel="">Task Status</ng-template>
             <mat-radio-group formControlName="status">
               <mat-radio-button
-                [disabled]="updateTaskForm.value.status === '1'"
+                [disabled]="
+                  updateTaskForm.value.status === '1' ||
+                  updateTaskForm.value.status === '2'
+                "
                 labelPosition="before"
                 value="0"
                 >New</mat-radio-button
