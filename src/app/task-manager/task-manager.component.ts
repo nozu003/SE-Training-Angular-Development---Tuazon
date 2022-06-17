@@ -1,8 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Tag } from '../models/tag.model';
 import { TaskStatus } from '../models/task-status';
@@ -104,7 +112,7 @@ export class TaskManagerComponent implements OnInit {
   /**
    * postsPerPage is used to indicate the number of displayed data inside the table
    */
-  postsPerPage = 15;
+  postsPerPage = 14;
   /**
    * currentPage is used to indicate the current page number
    */
@@ -112,7 +120,7 @@ export class TaskManagerComponent implements OnInit {
   /**
    * pageSizeOptions is used to have a choices in the number of displayed data
    */
-  pageSizeOptions = [5, 10, 15];
+  pageSizeOptions = [5, 10, 14];
 
   /**
    * Data source for the table using the ITask model
@@ -132,7 +140,7 @@ export class TaskManagerComponent implements OnInit {
   /**
    * ViewChild component for the MatPaginator
    */
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   /**
    * FormGroup for the filter
    */
@@ -148,7 +156,8 @@ export class TaskManagerComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private taskService: TaskService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -158,8 +167,6 @@ export class TaskManagerComponent implements OnInit {
 
     this.getAllTasks(this.postsPerPage, this.currentPage);
   }
-
-  ngAfterViewInit() {}
 
   /**
    * opens the add dialog for the task
@@ -214,6 +221,7 @@ export class TaskManagerComponent implements OnInit {
   }
 
   getAllTasks(postsPerPage: number, currentPage: number) {
+    this.loading = true;
     this.taskService.getTasks(postsPerPage, currentPage).subscribe({
       next: (tasks) => {
         this.dataSource = new MatTableDataSource<ITask>(tasks.body);

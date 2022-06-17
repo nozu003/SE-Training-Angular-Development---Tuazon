@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <!-- <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button> -->
+  <span (click)="home()" style="cursor: pointer">Task Management</span>
+  <span class="example-spacer"></span>
+  <mat-chip-list [mat-menu-trigger-for]="menu" style="margin-right: 1%">
+    <mat-chip>
+      <mat-chip-avatar>
+        <img
+          src="https://material.angular.io/assets/img/examples/shiba1.jpg"
+          alt="Photo of a Shiba Inu"
+        />
+      </mat-chip-avatar>
+      Hi, Jush Daeniel
+      <mat-icon>arrow_drop_down</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+</mat-toolbar>
